@@ -197,22 +197,10 @@ public-ip-address = [
     "3.94.9.203",
   ],
 ]
-keerthi@KBB-LT:~/Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline/EC2$ terraform state list
-keerthi@KBB-LT:~/Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline/EC2$ terraform state list
-aws_instance.prj-vm[0]
-aws_instance.prj-vm[1]
-aws_key_pair.key_pair
-local_file.private_key
-tls_private_key.rsa_4096
-keerthi@KBB-LT:~/Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline/EC2$ cd ..reation.txt…]()
+keerthi@KBB-LT:~/
 
 
-
-
-
-
-
-
+![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/59a2e52d-9072-4d2c-bff3-98dfa619027c)
 
 
 
