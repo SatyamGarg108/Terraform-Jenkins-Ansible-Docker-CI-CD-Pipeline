@@ -68,7 +68,6 @@ resource "aws_security_group" "prj-security-group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-
   egress {
     description = "Allow outgoing request"
     from_port = 0
