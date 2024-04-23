@@ -1,9 +1,20 @@
-Provisioned AWS infra and Amazon EC2 using Terraform for VPC and EC2
+Provisioned AWS infra using Terraform for **Continuous integration and continuous deployment (CI/CD)** using a powerful combination of Jenkins, Ansible, Docker, and GitHub Webhooks, all running on the Amazon Web Services (AWS) cloud platform.
+
+
+**AWS Infra Creation:**
+https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/tree/main/VPC
 
 
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/21d9de1a-316b-43b9-8324-6d962d848ea1)
 
+
+
 ![job-Terraform-Jenkins-AWS-CI-CD-Pipeline-12-console](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/3c200225-41fd-43ae-834e-e1fad8234246)
+
+
+
+**AWS-EC2 Creation:** https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/tree/main/EC2
+
 
 
 [Uploading EC2-Ckeerthi@KBB-LT:~/Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline/EC2$ terraform apply -auto-approve
@@ -198,19 +209,37 @@ public-ip-address = [
 keerthi@KBB-LT:~/
 
 
+
+**Building and  Running the container for the Website Deployment:** https://github.com/Keerthibb/Website-Repo/tree/main and 
+
+
+
+**Pulling the Docker image and copying the website hosting files to the target location:**  https://github.com/Keerthibb/Website-Repo/blob/main/Dockerfile
+
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/59a2e52d-9072-4d2c-bff3-98dfa619027c)
 
 
 
+**Pre updating the header of the website**
+
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/fab05cd8-5fcb-4e8b-8770-543cc9078566)
 
+
+
+**Post updating the header of the website(i.e, From Restorant to My-Resturant)**
+
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/c996e228-c6b8-4f9a-9e6f-b2ed72240abe)
+
 
 
 ![job-ansible-jenkins-docker-pipeline-6-console](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/f40ca8e5-d342-4cf6-a459-df2f8186220c)
 
 
+
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/7315c861-8761-4d0b-b1d9-81337ad222d6)
 
+
+
+**Backend Ansible code for Creating an Image, Running the container, Stopping the Container, Removing the Container, Removing the old image, and rebuilding the same** **using Git-hub webhook(Polling SCM)**
 
 
