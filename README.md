@@ -1,4 +1,8 @@
-[EC2-Creation.txt](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/files/15077800/EC2-Creation.txt)# Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline
+[VPC-Creation.txt](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/files/15077948/VPC-Creation.txt)[EC2-Creation.txt](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/files/15077800/EC2-Creation.txt)
+
+
+![job-Terraform-Jenkins-AWS-CI-CD-Pipeline-12-console](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/3c200225-41fd-43ae-834e-e1fad8234246)
+
 
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/21d9de1a-316b-43b9-8324-6d962d848ea1)
 
