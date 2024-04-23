@@ -11,6 +11,9 @@
 
 ![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/fab05cd8-5fcb-4e8b-8770-543cc9078566)
 
+![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/c996e228-c6b8-4f9a-9e6f-b2ed72240abe)
+
+
 ![job-ansible-jenkins-docker-pipeline-6-console](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/f40ca8e5-d342-4cf6-a459-df2f8186220c)
 
 
