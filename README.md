@@ -241,5 +241,5 @@ keerthi@KBB-LT:~/
 
 
 **Backend Ansible code for Creating an Image, Running the container, Stopping the Container, Removing the Container, Removing the old image, and rebuilding the same** **using Git-hub webhook(Polling SCM)**
-
+https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/tree/main/Ansible
 
