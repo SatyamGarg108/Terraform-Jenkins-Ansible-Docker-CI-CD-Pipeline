@@ -13,7 +13,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/Keerthibb/Terraform-Jenkins-Bash-Ansible-Docker-CI-CD-Pipeline.git'
             }
@@ -23,13 +23,13 @@ pipeline {
                 sh 'terraform init'
             }
         }
-        stage('Plan') {
+        stage('Terraform Plan') {
             steps {
                 sh 'terraform plan -out tfplan'
                 sh 'terraform show -no-color tfplan > tfplan.txt'
             }
         }
-        stage('Apply / Destroy') {
+        stage('Terraform Apply / Terraform Destroy') {
             steps {
                 script {
                     if (params.action == 'apply') {
