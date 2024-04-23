@@ -210,14 +210,14 @@ keerthi@KBB-LT:~/
 
 
 
+
+![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/59a2e52d-9072-4d2c-bff3-98dfa619027c)
+
 **Building and  Running the container for the Website Deployment:** https://github.com/Keerthibb/Website-Repo/tree/main and 
 
 
 
 **Pulling the Docker image and copying the website hosting files to the target location:**  https://github.com/Keerthibb/Website-Repo/blob/main/Dockerfile
-
-![image](https://github.com/Keerthibb/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/assets/92278245/59a2e52d-9072-4d2c-bff3-98dfa619027c)
-
 
 
 **Pre updating the header of the website**
