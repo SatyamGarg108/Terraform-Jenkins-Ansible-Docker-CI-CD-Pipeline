@@ -61,6 +61,13 @@ resource "aws_security_group" "prj-security-group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Allow 8080 port to access jenkins"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+  }
 
   egress {
     description = "Allow outgoing request"
