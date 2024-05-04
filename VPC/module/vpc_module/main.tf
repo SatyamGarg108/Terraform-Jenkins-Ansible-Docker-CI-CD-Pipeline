@@ -52,13 +52,6 @@ resource "aws_security_group" "prj-security-group" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     }
-   ingress {
-    description = "This is inbound security policy for Jenkins"
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    }
 
   ingress {
     description = "This is inbound security policy for SSH Port"
@@ -66,6 +59,14 @@ resource "aws_security_group" "prj-security-group" {
     to_port = 22
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Allow 8080 port to access jenkins"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
   }
 
   egress {
