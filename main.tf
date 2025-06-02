@@ -91,4 +91,3 @@ module "EC2" {
   security_group_value  = var.security_group_value
   key_name              = var.key_name
 }
-
