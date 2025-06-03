@@ -5,3 +5,4 @@ ec2_instance_count = "2"
 subnet_id_value = "subnet-080beafaccca8e444"
 security_group_value = "sg-00c35d1fe54c5259d"
 key_name = "docker.pem"
+
