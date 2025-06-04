@@ -29,6 +29,7 @@ resource "null_resource" "run_ansible_playbook" {
   depends_on = [aws_instance.prj-vm]
 
   provisioner "local-exec" {
-    command = "cd $WORKSPACE && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini"
+    command = "cd ${var.workspace_dir} && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
+
   }
 }
