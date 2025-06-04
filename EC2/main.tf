@@ -24,3 +24,11 @@ resource "local_file" "private_key" {
   content  = tls_private_key.rsa_4096.private_key_pem
   filename = var.key_name
 }
+
+resource "null_resource" "run_ansible_playbook" {
+  depends_on = [aws_instance.prj-vm]
+
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook /home/user/repos/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/Ansible/nginx_setup.yml -i /home/user/repos/Terraform-Jenkins-Ansible-Docker-CI-CD-Pipeline/Ansible/inventory.ini"
+  }
+}
