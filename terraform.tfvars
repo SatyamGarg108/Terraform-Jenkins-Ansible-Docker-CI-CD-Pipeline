@@ -1,7 +1,7 @@
 region_value = "us-east-1"
 ami_value = "ami-080e1f13689e07408"
 instance_type = "t2.medium"
-ec2_instance_count = "2"
+ec2_instance_count = "1"
 subnet_id_value = "subnet-080beafaccca8e444"
 security_group_value = "sg-0654c33bc324a31fd"
 key_name = "docker.pem"
