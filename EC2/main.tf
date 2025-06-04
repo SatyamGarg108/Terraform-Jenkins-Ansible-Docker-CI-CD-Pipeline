@@ -29,7 +29,7 @@ resource "null_resource" "run_ansible_playbook" {
   depends_on = [aws_instance.prj-vm]
 
   provisioner "local-exec" {
-    command = "cd $WORKSPACE && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
+  command = "cd $WORKSPACE && chmod 600 ./docker.pem && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
+}
 
-  }
 }
