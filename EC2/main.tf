@@ -6,7 +6,7 @@ resource "aws_instance" "prj-vm" {
     key_name = aws_key_pair.key_pair.key_name
     vpc_security_group_ids = [var.security_group_value]
     tags = {
-        Name = "Docker-server-${count.index}"
+        Name = "Satyam_Docker-server-${count.index}"
     }
 }
 

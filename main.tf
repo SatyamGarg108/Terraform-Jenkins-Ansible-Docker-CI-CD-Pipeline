@@ -4,7 +4,7 @@ resource "aws_vpc" "Terraform_VPC" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "Prj_VPC"
+    Name = "Satyam-Pipeline-VPC"
   }
 }
 
@@ -14,14 +14,14 @@ resource "aws_subnet" "prj-public_subnet" {
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone
   tags = {
-    Name = "Prj-public-Subnet"
+    Name = "Satyam-Pipeline-Subnet"
   }
 }
 
 resource "aws_internet_gateway" "prj-internet-gateway" {
   vpc_id = aws_vpc.Terraform_VPC.id
   tags = {
-    Name = "Prj-IGW"
+    Name = "Satyam-Pipeline-Internet-Gateway"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_route_table" "prj-route_table" {
     gateway_id = aws_internet_gateway.prj-internet-gateway.id
   }
   tags = {
-    Name = "Prj-Route-table"
+    Name = "Satyam-Pipeline-Route-table"
   }
 }
 
@@ -46,15 +46,23 @@ resource "aws_security_group" "prj-security-group" {
   vpc_id = aws_vpc.Terraform_VPC.id
 
   ingress {
-    description = "This is inbound security policy for HTTP Protocol"
+    description = "HTTP inbound allow port 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+    ingress {
+    description = "HTTPS inbound allow port 80"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
-    description = "This is inbound security policy for SSH Port"
+    description = "SSH inbound allow port 22"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -62,7 +70,7 @@ resource "aws_security_group" "prj-security-group" {
   }
 
   ingress {
-    description = "Allow 8080 port to access jenkins"
+    description = "jenkins inbound allow port 8080"
     cidr_blocks = ["0.0.0.0/0"]
     from_port   = 8080
     to_port     = 8080
@@ -70,7 +78,7 @@ resource "aws_security_group" "prj-security-group" {
   }
 
   egress {
-    description = "Allow outgoing request"
+    description = "Allow outgoing request for everything"
     from_port   = 0
     to_port     = 0
     protocol    = -1
@@ -78,7 +86,7 @@ resource "aws_security_group" "prj-security-group" {
   }
 
   tags = {
-    Name = "Prj-security-group"
+    Name = "Satyam-Pipeline-Security-Group"
   }
 }
 
