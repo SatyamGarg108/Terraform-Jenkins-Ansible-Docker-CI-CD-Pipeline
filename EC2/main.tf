@@ -3,7 +3,7 @@ resource "aws_instance" "prj-vm" {
   instance_type          = var.instance_type
   count                  = 1
   subnet_id              = var.subnet_id_value
-  key_name               = aws_key_pair.key_pair.key_name
+  key_name               = var.key_name  # Use the existing key pair name here
   vpc_security_group_ids = [var.security_group_value]
 
   associate_public_ip_address = true
@@ -54,9 +54,9 @@ resource "null_resource" "generate_inventory" {
 
   provisioner "local-exec" {
     command = <<EOT
-      chmod 600 ./${var.key_name}
+      chmod 600 ./docker.pem
       echo "[webservers]" > Ansible/inventory.ini
-      echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./${var.key_name}" >> Ansible/inventory.ini
+      echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./docker.pem" >> Ansible/inventory.ini
     EOT
   }
 }

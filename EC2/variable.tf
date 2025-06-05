@@ -28,7 +28,7 @@ variable "security_group_value" {
 
 
 variable "key_name" {
-  description = "Key name to use for EC2 instance login"
+  description = "Name of the existing AWS key pair"
   type        = string
-  default = "docker.pem"
-}
+  default     = "docker.pem"
+  }
