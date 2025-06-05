@@ -87,7 +87,7 @@ module "EC2" {
   ami_value             = var.ami_value
   instance_type         = var.instance_type
   ec2_instance_count    = var.ec2_instance_count
-  subnet_id_value       = var.subnet_id_value
-  security_group_value  = var.security_group_value
+  subnet_id_value = aws_subnet.prj-public_subnet.id
+  security_group_value = aws_security_group.prj-security-group.id
   key_name              = var.key_name
 }
