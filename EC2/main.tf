@@ -42,18 +42,11 @@ resource "local_file" "private_key" {
 resource "null_resource" "wait_for_ssh" {
   depends_on = [aws_instance.prj-vm]
 
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      host        = aws_instance.prj-vm[0].public_ip
-      user        = "ec2-user"
-      private_key = tls_private_key.rsa_4096.private_key_pem
-      timeout     = "5m"
-    }
-
-    inline = ["echo '✅ SSH is now available'"]
+  provisioner "local-exec" {
+    command = "sleep 30"
   }
 }
+
 
 
 resource "null_resource" "generate_inventory" {
