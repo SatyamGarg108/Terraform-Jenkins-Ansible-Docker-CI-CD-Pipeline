@@ -70,10 +70,12 @@ resource "null_resource" "generate_inventory" {
 
 resource "null_resource" "run_ansible_playbook" {
   depends_on = [null_resource.wait_for_ssh]
+
   provisioner "local-exec" {
     command = <<EOT
-      chmod 600 ./docker.pem
-      ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'
-    EOT
+chmod 600 ./${var.key_name}
+ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'
+EOT
+
   }
 }
