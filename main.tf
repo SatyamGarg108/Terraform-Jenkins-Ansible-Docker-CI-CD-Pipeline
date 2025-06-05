@@ -27,10 +27,12 @@ resource "aws_internet_gateway" "prj-internet-gateway" {
 
 resource "aws_route_table" "prj-route_table" {
   vpc_id = aws_vpc.Terraform_VPC.id
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.prj-internet-gateway.id
   }
+
   tags = {
     Name = "Satyam-Pipeline-Route-table"
   }
@@ -53,8 +55,8 @@ resource "aws_security_group" "prj-security-group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
-    description = "HTTPS inbound allow port 80"
+  ingress {
+    description = "HTTPS inbound allow port 443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -70,11 +72,11 @@ resource "aws_security_group" "prj-security-group" {
   }
 
   ingress {
-    description = "jenkins inbound allow port 8080"
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "Jenkins inbound allow port 8080"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -92,10 +94,14 @@ resource "aws_security_group" "prj-security-group" {
 
 module "EC2" {
   source                = "./EC2"
+
   ami_value             = var.ami_value
   instance_type         = var.instance_type
   ec2_instance_count    = var.ec2_instance_count
-  subnet_id_value = aws_subnet.prj-public_subnet.id
-  security_group_value = aws_security_group.prj-security-group.id
-  key_name              = var.key_name
+
+  subnet_id_value       = aws_subnet.prj-public_subnet.id
+  security_group_value  = aws_security_group.prj-security-group.id
+
+  # 👇 Make sure this is EXACTLY "docker.pem" (used in your local-exec and playbook)
+  key_name              = "docker.pem"
 }

@@ -15,7 +15,9 @@ resource "aws_instance" "prj-vm" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-              amazon-linux-extras install epel -y
+              amazon-linux-extras enable epel
+              yum clean metadata
+              yum install -y epel-release
               yum install -y ansible python3
               EOF
 }
@@ -31,8 +33,10 @@ resource "aws_key_pair" "key_pair" {
 }
 
 resource "local_file" "private_key" {
-  content  = tls_private_key.rsa_4096.private_key_pem
-  filename = var.key_name
+  content              = tls_private_key.rsa_4096.private_key_pem
+  filename             = var.key_name
+  file_permission      = "0600" # 👈 Secure permissions
+  directory_permission = "0700"
 }
 
 resource "null_resource" "wait_for_ssh" {
@@ -46,7 +50,7 @@ resource "null_resource" "wait_for_ssh" {
       private_key = tls_private_key.rsa_4096.private_key_pem
     }
 
-    inline = ["echo 'EC2 instance is reachable via SSH'"]
+    inline = ["echo '✅ EC2 instance is reachable via SSH'"]
   }
 }
 
@@ -63,9 +67,12 @@ resource "null_resource" "generate_inventory" {
 }
 
 resource "null_resource" "run_ansible_playbook" {
-  depends_on = [null_resource.wait_for_ssh]
+  depends_on = [null_resource.wait_for_ssh, null_resource.generate_inventory]
 
   provisioner "local-exec" {
-    command = "cd $WORKSPACE && chmod 600 ./docker.pem && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
+    command = <<EOT
+      chmod 600 ./${var.key_name}
+      ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'
+    EOT
   }
 }
