@@ -48,11 +48,13 @@ resource "null_resource" "wait_for_ssh" {
       host        = aws_instance.prj-vm[0].public_ip
       user        = "ec2-user"
       private_key = tls_private_key.rsa_4096.private_key_pem
+      timeout     = "5m"
     }
 
-    inline = ["echo '✅ EC2 instance is reachable via SSH'"]
+    inline = ["echo '✅ SSH is now available'"]
   }
 }
+
 
 resource "null_resource" "generate_inventory" {
   depends_on = [aws_instance.prj-vm]
@@ -70,7 +72,7 @@ resource "null_resource" "run_ansible_playbook" {
   depends_on = [null_resource.wait_for_ssh, null_resource.generate_inventory]
 
   provisioner "local-exec" {
-    command = <<EOT
+    command = <<-EOT
       chmod 600 ./${var.key_name}
       ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'
     EOT
