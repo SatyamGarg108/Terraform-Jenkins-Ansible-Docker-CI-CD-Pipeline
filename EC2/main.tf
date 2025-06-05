@@ -1,10 +1,13 @@
 resource "aws_instance" "prj-vm" {
   ami                    = var.ami_value
   instance_type          = var.instance_type
-  count                  = var.ec2_instance_count
+  count                  = 1
   subnet_id              = var.subnet_id_value
   key_name               = aws_key_pair.key_pair.key_name
   vpc_security_group_ids = [var.security_group_value]
+
+  associate_public_ip_address = true
+
   tags = {
     Name = "Satyam_Docker-server-${count.index}"
   }
@@ -32,8 +35,35 @@ resource "local_file" "private_key" {
   filename = var.key_name
 }
 
-resource "null_resource" "run_ansible_playbook" {
+resource "null_resource" "wait_for_ssh" {
   depends_on = [aws_instance.prj-vm]
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      host        = aws_instance.prj-vm[0].public_ip
+      user        = "ec2-user"
+      private_key = tls_private_key.rsa_4096.private_key_pem
+    }
+
+    inline = ["echo 'EC2 instance is reachable via SSH'"]
+  }
+}
+
+resource "null_resource" "generate_inventory" {
+  depends_on = [aws_instance.prj-vm]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      chmod 600 ./${var.key_name}
+      echo "[webservers]" > Ansible/inventory.ini
+      echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./${var.key_name}" >> Ansible/inventory.ini
+    EOT
+  }
+}
+
+resource "null_resource" "run_ansible_playbook" {
+  depends_on = [null_resource.wait_for_ssh]
 
   provisioner "local-exec" {
     command = "cd $WORKSPACE && chmod 600 ./docker.pem && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
