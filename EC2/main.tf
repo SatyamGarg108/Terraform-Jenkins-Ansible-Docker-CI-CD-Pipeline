@@ -1,13 +1,20 @@
 resource "aws_instance" "prj-vm" {
-    ami = var.ami_value
-    instance_type = var.instance_type
-    count = var.ec2_instance_count
-    subnet_id = var.subnet_id_value
-    key_name = aws_key_pair.key_pair.key_name
-    vpc_security_group_ids = [var.security_group_value]
-    tags = {
-        Name = "Satyam_Docker-server-${count.index}"
-    }
+  ami                    = var.ami_value
+  instance_type          = var.instance_type
+  count                  = var.ec2_instance_count
+  subnet_id              = var.subnet_id_value
+  key_name               = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids = [var.security_group_value]
+  tags = {
+    Name = "Satyam_Docker-server-${count.index}"
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              amazon-linux-extras install epel -y
+              yum install -y ansible python3
+              EOF
 }
 
 resource "tls_private_key" "rsa_4096" {
@@ -29,7 +36,6 @@ resource "null_resource" "run_ansible_playbook" {
   depends_on = [aws_instance.prj-vm]
 
   provisioner "local-exec" {
-  command = "cd $WORKSPACE && chmod 600 ./docker.pem && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
-}
-
+    command = "cd $WORKSPACE && chmod 600 ./docker.pem && ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'"
+  }
 }
