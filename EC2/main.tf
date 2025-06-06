@@ -43,10 +43,23 @@ resource "null_resource" "wait_for_ssh" {
   depends_on = [aws_instance.prj-vm]
 
   provisioner "local-exec" {
-    command = "while ! nc -z ${aws_instance.prj-vm[0].public_ip} 22; do echo 'waiting for SSH...'; sleep 5; done"
-
+    command = <<EOT
+IP=${aws_instance.prj-vm[0].public_ip}
+ATTEMPT=1
+MAX_ATTEMPTS=30
+while ! ssh -i ./${var.key_name} -o StrictHostKeyChecking=no -o ConnectTimeout=5 ec2-user@$IP 'exit' 2>/dev/null; do
+  echo "[$ATTEMPT/$MAX_ATTEMPTS] Waiting for SSH on $IP..."
+  if [ "$ATTEMPT" -ge "$MAX_ATTEMPTS" ]; then
+    echo "ERROR: Timed out waiting for SSH."
+    exit 1
+  fi
+  ATTEMPT=$((ATTEMPT+1))
+  sleep 5
+done
+EOT
   }
 }
+
 
 
 
@@ -58,6 +71,8 @@ resource "null_resource" "generate_inventory" {
       chmod 600 ./${var.key_name}
       echo "[webservers]" > Ansible/inventory.ini
       echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./${var.key_name}" >> Ansible/inventory.ini
+      echo "Current directory: $(pwd)"
+      ls -l
 
     EOT
   }
@@ -67,10 +82,16 @@ resource "null_resource" "run_nginx_setup_playbook" {
   depends_on = [null_resource.wait_for_ssh]
 
   provisioner "local-exec" {
-    command = <<EOT
-chmod 600 ./${var.key_name}
-ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no'
-EOT
+  command = <<EOT
+echo "Using key: ./${var.key_name}"
+ls -l ./${var.key_name}
+echo "Trying to SSH into: ${aws_instance.prj-vm[0].public_ip}"
+echo "Current directory: $(pwd)"
+ls -l
 
-  }
+chmod 600 ./${var.key_name}
+ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no -o ConnectTimeout=5' -vvvv
+EOT
+}
+
 }
