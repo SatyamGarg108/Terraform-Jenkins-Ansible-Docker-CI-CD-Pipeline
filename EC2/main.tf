@@ -43,7 +43,8 @@ resource "null_resource" "wait_for_ssh" {
   depends_on = [aws_instance.prj-vm]
 
   provisioner "local-exec" {
-    command = "sleep 30"
+    command = "while ! nc -z ${aws_instance.prj-vm[0].public_ip} 22; do echo 'waiting for SSH...'; sleep 5; done"
+
   }
 }
 
@@ -54,14 +55,15 @@ resource "null_resource" "generate_inventory" {
 
   provisioner "local-exec" {
     command = <<EOT
-      chmod 600 ./docker.pem
+      chmod 600 ./${var.key_name}
       echo "[webservers]" > Ansible/inventory.ini
-      echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./docker.pem" >> Ansible/inventory.ini
+      echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./${var.key_name}" >> Ansible/inventory.ini
+
     EOT
   }
 }
 
-resource "null_resource" "run_ansible_playbook" {
+resource "null_resource" "run_nginx_setup_playbook" {
   depends_on = [null_resource.wait_for_ssh]
 
   provisioner "local-exec" {
