@@ -20,6 +20,10 @@
       yum:
         name: docker-ce
         state: latest
+      register: result
+      until: result is succeeded
+      retries: 10
+      delay: 15
 
     - name: Start and enable Docker service
       systemd:
