@@ -90,7 +90,7 @@ echo "Current directory: $(pwd)"
 ls -l
 
 chmod 600 ./${var.key_name}
-ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no -o ConnectTimeout=5' -vvvv
+ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no -o ConnectTimeout=5'
 EOT
 }
 
