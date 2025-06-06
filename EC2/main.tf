@@ -60,9 +60,6 @@ EOT
   }
 }
 
-
-
-
 resource "null_resource" "generate_inventory" {
   depends_on = [aws_instance.prj-vm]
 
@@ -72,8 +69,6 @@ resource "null_resource" "generate_inventory" {
       echo "[webservers]" > Ansible/inventory.ini
       echo "${aws_instance.prj-vm[0].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=./${var.key_name}" >> Ansible/inventory.ini
       echo "Current directory: $(pwd)"
-      ls -la
-
     EOT
   }
 }
@@ -84,11 +79,7 @@ resource "null_resource" "run_nginx_setup_playbook" {
   provisioner "local-exec" {
   command = <<EOT
 echo "Using key: ./${var.key_name}"
-ls -l ./${var.key_name}
 echo "Trying to SSH into: ${aws_instance.prj-vm[0].public_ip}"
-echo "Current directory: $(pwd)"
-ls -l
-
 chmod 600 ./${var.key_name}
 ansible-playbook Ansible/nginx_setup.yml -i Ansible/inventory.ini --ssh-extra-args='-o StrictHostKeyChecking=no -o ConnectTimeout=5'
 EOT
