@@ -2,6 +2,17 @@
   become: true
   tasks:
 
+    - name: Remove Docker CE repo if it exists (fix broken CentOS 2 path)
+      file:
+        path: /etc/yum.repos.d/docker-ce.repo
+        state: absent
+
+    - name: Clean Yum metadata
+      command: yum clean all
+
+    - name: Rebuild Yum cache
+      command: yum makecache
+
     - name: Enable docker in Amazon Linux Extras
       command: amazon-linux-extras enable docker
       args:
