@@ -1,4 +1,3 @@
----
 - hosts: webservers
   become: true
   tasks:
@@ -16,21 +15,6 @@
         name: docker
         state: started
         enabled: yes
-        
-    - name: Install Docker Engine
-      yum:
-        name: docker-ce
-        state: latest
-      register: result
-      until: result is succeeded
-      retries: 10
-      delay: 15
-
-    - name: Start and enable Docker service
-      systemd:
-        name: docker
-        enabled: yes
-        state: started
 
     - name: Pull latest NGINX image
       docker_image:
