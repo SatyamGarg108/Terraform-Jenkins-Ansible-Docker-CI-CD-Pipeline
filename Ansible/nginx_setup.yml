@@ -32,6 +32,16 @@
         state: started
         enabled: yes
 
+    - name: Install pip3
+      yum:
+        name: python3-pip
+        state: present
+
+    - name: Install Python 'requests' module
+      pip:
+        name: requests
+        executable: pip3
+
     - name: Pull latest NGINX image
       docker_image:
         name: nginx
