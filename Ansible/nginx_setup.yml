@@ -2,15 +2,20 @@
   become: true
   tasks:
 
-    - name: Enable Docker via Amazon Linux Extras
+    - name: Enable docker in Amazon Linux Extras
       command: amazon-linux-extras enable docker
+      args:
+        creates: /etc/yum.repos.d/amzn2-extras.repo
 
-    - name: Install Docker
+    - name: Clean all yum metadata
+      command: yum clean metadata
+
+    - name: Install Docker (from Amazon Linux Extras)
       yum:
         name: docker
         state: present
 
-    - name: Start and enable Docker
+    - name: Start and enable Docker service
       service:
         name: docker
         state: started
