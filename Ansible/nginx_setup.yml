@@ -3,19 +3,20 @@
   become: true
   tasks:
 
-    - name: Install required system packages
+    - name: Enable Docker via Amazon Linux Extras
+      command: amazon-linux-extras enable docker
+
+    - name: Install Docker
       yum:
-        name:
-          - yum-utils
-          - device-mapper-persistent-data
-          - lvm2
+        name: docker
         state: present
 
-    - name: Add Docker repo
-      get_url:
-        url: https://download.docker.com/linux/centos/docker-ce.repo
-        dest: /etc/yum.repos.d/docker-ce.repo
-
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+        
     - name: Install Docker Engine
       yum:
         name: docker-ce
